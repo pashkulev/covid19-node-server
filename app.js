@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dataParser = require('./data-parser');
-const covidocRoutes = require('./api/covidoc-routes');
+const covidocController = require('./api/controllers/covidoc-controller');
+const patientsController = require('./api/controllers/patient-controller');
 
 const databaseUrl = 'mongodb+srv://vankata:' + process.env.MONGO_ATLAS_PASSWORD + '@covid-19-app.kopr8.mongodb.net/covid?retryWrites=true&w=majority';
 mongoose.connect(databaseUrl, {
@@ -29,7 +30,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/covidocs', covidocRoutes);
+app.use('/covidocs', covidocController);
+app.use('/patients', patientsController);
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');

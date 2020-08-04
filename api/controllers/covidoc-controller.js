@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const CoviDoc = require('./models/covidoc-data')
+const CoviDoc = require('../models/covidoc-data')
 
 router.get('/', async (req, res, next) => {
   try {
