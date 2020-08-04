@@ -1,5 +1,6 @@
 {
     "env": {
-        "MONGO_ATLAS_PASSWORD": "yjbh1N9lUpeScIuC"
+        "MONGO_ATLAS_PASSWORD": "yjbh1N9lUpeScIuC",
+        "PORT": 3001
     }
 }

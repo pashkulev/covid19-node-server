@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const covidDataSchema = mongoose.Schema({
+const covidocDataSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     sno: Number,
     observationDate: mongoose.Schema.Types.Date,
@@ -12,4 +12,4 @@ const covidDataSchema = mongoose.Schema({
     recovered: Number
 });
 
-module.exports = mongoose.model('CoviDoc', covidDataSchema);
+module.exports = mongoose.model('CoviDoc', covidocDataSchema);

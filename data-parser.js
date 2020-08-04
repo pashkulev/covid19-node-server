@@ -2,7 +2,7 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const mongoose = require('mongoose');
 const iconv = require('iconv-lite');
-const CoviDoc = require('./api/models/covid-data');
+const CoviDoc = require('./api/models/covidoc-data');
 const Patient = require('./api/models/patient-data');
 
 const initData = () => {
@@ -36,7 +36,7 @@ const initCovidocs = () => {
                     });
     
                     coviDoc.save()
-                        .then(result => console.log("Saved: " + result))
+                        .then(newCoviDoc => console.log("Saved: " + newCoviDoc))
                         .catch(error => console.log(error));
                 });
         }
@@ -45,27 +45,18 @@ const initCovidocs = () => {
 
 const initCovidPatients = () => {
     Patient.countDocuments({}, (err, count) => {
-        let logs = "";
-        logs += "Patients Count: " + count;
         console.log("Patients Count: " + count);
 
         if (err) {
             console.log(error);
             return;
         }
-
     
         if (count === 0) {
             fs.createReadStream('./data/COVID19_line_list_data.csv')
                 .pipe(iconv.decodeStream('utf8'))
                 .pipe(csv())
                 .on('data', (data) => {
-                    console.log(data);
-                    logs += '/n';
-                    for (let key of Object.keys(data)) {
-                        logs += key + ","
-                    }
-                    logs += '\n Raw Data: ' + data['id'];
                     const patient = new Patient({
                         _id: new mongoose.Types.ObjectId(),
                         ordinalId: data['id'],
@@ -89,16 +80,10 @@ const initCovidPatients = () => {
                         source: data['source'],
                         link: data['link']
                     });
-    
+
                     patient.save()
-                        .then(result => log += result)
-                        .catch(error => {
-                            logs += error;
-                        });
-                }).on("end", () => {
-                    fs.writeFile('logs.txt', logs, (error) => {
-                        console.log(error);
-                    });
+                        .then(result => console.log("Saved: " + result))
+                        .catch(error => console.log(error));
                 });
         }
     });  

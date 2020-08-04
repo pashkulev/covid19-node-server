@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dataParser = require('./data-parser');
-const covidRoutes = require('./api/covid-routes');
+const covidocRoutes = require('./api/covidoc-routes');
 
 const databaseUrl = 'mongodb+srv://vankata:' + process.env.MONGO_ATLAS_PASSWORD + '@covid-19-app.kopr8.mongodb.net/covid?retryWrites=true&w=majority';
 mongoose.connect(databaseUrl, {
@@ -22,13 +22,14 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
     if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        res.header('Access-Control-Allow-Methods', 'GET');
         return res.status(200).json({});
     }
 
     next();
-})
-app.use('/', covidRoutes);
+});
+
+app.use('/covidocs', covidocRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');
