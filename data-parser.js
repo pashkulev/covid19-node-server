@@ -76,7 +76,7 @@ const initCovidPatients = () => {
                         isFromWuhan: notAvailableValueHandler(data, 'from Wuhan'),
                         dateOfDeath: dateValueHandler(data['death']),
                         recoveryDate: dateValueHandler(data['recovered']),
-                        symptoms: data['symptom'].split(",").filter(e => e !== ""),
+                        symptoms: data['symptom'],
                         source: data['source'],
                         link: data['link']
                     });

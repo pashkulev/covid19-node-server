@@ -19,7 +19,7 @@ const covidPatientSchema = mongoose.Schema({
     isFromWuhan: Boolean,
     dateOfDeath: mongoose.Schema.Types.Date,
     recoveryDate: mongoose.Schema.Types.Date,
-    symptoms: mongoose.Schema.Types.Array,
+    symptoms: String,
     source: String,
     link: String
 });
