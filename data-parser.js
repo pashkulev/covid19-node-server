@@ -60,12 +60,12 @@ const initCovidPatients = () => {
                     const patient = new Patient({
                         _id: new mongoose.Types.ObjectId(),
                         ordinalId: data['id'],
-                        caseInCountry: data['case_in_country'],
+                        caseInCountry: notAvailableValueHandler(data, 'case_in_country'),
                         reportingDate: notAvailableValueHandler(data, 'reporting date'),
                         summary: data['summary'],
                         location: data['location'],
                         country: data['country'],
-                        gender: data['gender'],
+                        gender: notAvailableValueHandler(data, 'gender'),
                         age: notAvailableValueHandler(data, 'age'),
                         symptomOnset: notAvailableValueHandler(data, 'symptom_onset'),
                         onsetApproximated: notAvailableValueHandler(data, 'If_onset_approximated'),
@@ -74,8 +74,8 @@ const initCovidPatients = () => {
                         exposureEnd: notAvailableValueHandler(data, 'exposure_end'),
                         isVisitingWuhan: notAvailableValueHandler(data, 'visiting Wuhan'),
                         isFromWuhan: notAvailableValueHandler(data, 'from Wuhan'),
-                        dateOfDeath: notAvailableValueHandler(data, 'death'),
-                        recoveryDate: data['recovered'],
+                        dateOfDeath: dateValueHandler(data['death']),
+                        recoveryDate: dateValueHandler(data['recovered']),
                         symptoms: data['symptom'].split(",").filter(e => e !== ""),
                         source: data['source'],
                         link: data['link']
@@ -91,6 +91,10 @@ const initCovidPatients = () => {
 
 const notAvailableValueHandler = (data, fieldName) => {
     return data[fieldName] === 'NA' ? null : data[fieldName];
+};
+
+const dateValueHandler = (date) => {
+    return date == 0 || date == 1 ? null : date;
 };
 
 module.exports = {initData};
